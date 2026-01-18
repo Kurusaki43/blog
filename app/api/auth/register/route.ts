@@ -4,6 +4,7 @@ import { User } from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { hashPassword } from "@/lib/hash";
+import { Profile } from "@/models/Profile";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,8 +25,8 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await hashPassword(password);
     validUserData.password = hashedPassword;
 
-    const newUser = new User(validUserData);
-    await newUser.save();
+    const newUser = await User.create(validUserData);
+    await Profile.create({ user: newUser._id });
 
     return NextResponse.json(
       { message: "User registered successfully" },
