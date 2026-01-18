@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     validUserData.password = hashedPassword;
 
     const newUser = await User.create(validUserData);
-    await Profile.create({ user: newUser._id });
+    await Profile.create({ userId: newUser._id });
 
     return NextResponse.json(
       { message: "User registered successfully" },
