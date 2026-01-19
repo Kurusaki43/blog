@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/mongoose";
-import { registerSchema } from "@/lib/schemas/registerSchema";
+import { registerSchema } from "@/lib/schemas/auth/registerSchema";
 import { User } from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
