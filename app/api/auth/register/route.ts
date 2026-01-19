@@ -3,7 +3,7 @@ import { registerSchema } from "@/lib/schemas/auth/registerSchema";
 import { User } from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
-import { hashPassword } from "@/lib/hash";
+import { hashPassword } from "@/lib/auth/hash";
 import { Profile } from "@/models/Profile";
 
 export async function POST(request: NextRequest) {
