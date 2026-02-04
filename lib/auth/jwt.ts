@@ -11,5 +11,10 @@ export const assignAccessToken = (payload: JwtPayload) =>
 export const assignRefreshToken = (payload: JwtPayload) =>
   jwt.sign(payload, JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
 
-export const verifyAccessToken = (token: string): JwtPayload =>
-  jwt.verify(token, JWT_SECRET) as JwtPayload;
+export const verifyAccessToken = (token: string) => {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch {
+    return null;
+  }
+};

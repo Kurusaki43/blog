@@ -1,4 +1,4 @@
-import { setRefreshTokenCookie } from "@/lib/auth/cookies";
+import { setAuthCookies } from "@/lib/auth/cookies";
 import { comparePasswords } from "@/lib/auth/hash";
 import { assignAccessToken, assignRefreshToken } from "@/lib/auth/jwt";
 import { connectDB } from "@/lib/mongoose";
@@ -44,11 +44,11 @@ export async function POST(req: NextRequest) {
     });
 
     const response = NextResponse.json(
-      { message: "Login successful", accessToken },
+      { status: "success", message: "Login successful" },
       { status: 200 },
     );
 
-    setRefreshTokenCookie(response, refreshToken);
+    setAuthCookies(response, accessToken, refreshToken);
 
     return response;
   } catch (err) {
