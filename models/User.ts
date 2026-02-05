@@ -9,6 +9,7 @@ export interface IUser extends Document {
   role: Role;
   isEmailVerified: boolean;
   status: UserStatus;
+  refreshToken?: string;
   createdAt: Date;
   updatedAt: Date;
 
@@ -33,6 +34,7 @@ const userSchema = new Schema<IUser>(
       default: "active",
       required: true,
     },
+    refreshToken: { type: String, default: null },
   },
   { timestamps: true },
 );

@@ -35,13 +35,15 @@ export async function POST(req: NextRequest) {
     }
 
     // JWT Tokens Assignment
-    const accessToken = assignAccessToken({
+    const payload = {
       userId: existingUser._id.toString(),
       role: existingUser.role,
-    });
-    const refreshToken = assignRefreshToken({
-      userId: existingUser._id.toString(),
-    });
+    };
+    const accessToken = assignAccessToken(payload);
+    const refreshToken = assignRefreshToken(payload);
+
+    existingUser.refreshToken = refreshToken;
+    await existingUser.save();
 
     const response = NextResponse.json(
       { status: "success", message: "Login successful" },
