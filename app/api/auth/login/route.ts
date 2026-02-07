@@ -1,6 +1,7 @@
 import { setAuthCookies } from "@/lib/auth/cookies";
 import { comparePasswords } from "@/lib/auth/hash";
 import { assignAccessToken, assignRefreshToken } from "@/lib/auth/jwt";
+import { formatZodError } from "@/lib/error";
 import { connectDB } from "@/lib/mongoose";
 import { loginSchema } from "@/lib/schemas/auth/loginSchema";
 import { IUser, User } from "@/models/User";
@@ -55,12 +56,7 @@ export async function POST(req: NextRequest) {
     return response;
   } catch (err) {
     if (err instanceof ZodError) {
-      const errors = err.issues.reduce((acc: Record<string, string>, issue) => {
-        const field = issue.path[0] as string;
-        acc[field] = issue.message;
-        return acc;
-      }, {});
-
+      const errors = formatZodError(err);
       return NextResponse.json({ errors }, { status: 400 });
     }
 

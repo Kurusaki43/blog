@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { hashPassword } from "@/lib/auth/hash";
 import { Profile } from "@/models/Profile";
+import { formatZodError } from "@/lib/error";
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,13 +35,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     if (err instanceof ZodError) {
-      // Use 'err.issues' instead of 'err.errors'
-      const errors = err.issues.reduce((acc: Record<string, string>, issue) => {
-        const field = issue.path[0] as string; // first element of path
-        acc[field] = issue.message;
-        return acc;
-      }, {});
-
+      const errors = formatZodError(err);
       return NextResponse.json({ errors }, { status: 400 });
     }
 
